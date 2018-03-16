@@ -2,14 +2,14 @@
 Demo for parsing Structured text data to an HTML &lt;ul> 
 
 
-##The PHP scripts expects structured/formatted data in the input_data file
+## The PHP scripts expects structured/formatted data in the input_data file
 
-###The input file format is formatted with each level indexed by four spaces more than the level above
-###level zero is indexed with four spaces exactly
+### The input file format is formatted with each level indexed by four spaces more than the level above
+### level zero is indexed with four spaces exactly
 
 
-###Example
-`
+### Example
+```
     Head
     Same level
         Sublevel
@@ -20,7 +20,7 @@ Demo for parsing Structured text data to an HTML &lt;ul>
         Sublevel
     Same level
 
-`
+```
 
 ###The class is automatically called, when you run the index file. With the input above the output should be
 
