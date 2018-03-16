@@ -52,14 +52,15 @@ namespace solutionstack {
             echo($this->markup_text); //output and end
         }
 
-        protected function build_menu(string $line)
+        protected function build_menu(string $line):void
         {
             if ( ! strlen($line)) {//empty line, ignore
                 return;
             }
 
 
-            if ($this->current_indent_level === 0) {//CASE 1: initial indent is 0, so we at start of file
+            if ($this->current_indent_level === 0) {
+                ///CASE 1: initial indent is 0, so we at start of file
 
                 $this->markup_text .= self::MARKUP_BLOCK_START; //start first <ul>
 
@@ -96,7 +97,7 @@ namespace solutionstack {
                 }
 
 
-                if ($space_count - $this->current_indent_level === 4) {
+                if ($space_count - $this->current_indent_level === $this->indent_mltiple) {
                     //CASE 3: current item is one level deep from the previous
                     //i.e a sub menu
 
@@ -109,7 +110,7 @@ namespace solutionstack {
 
                 }
 
-                if ($this->current_indent_level - $space_count === 4) {
+                if ($this->current_indent_level - $space_count === $this->indent_mltiple) {
                     //CASE 3: current item is at one indent level outside the previous
                     //i.e leaving a submenu
 
