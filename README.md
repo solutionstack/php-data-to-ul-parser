@@ -4,8 +4,8 @@ Demo for parsing Structured text data to an HTML &lt;ul>
 
 ## The PHP scripts expects structured/formatted data in the input_data file
 
-### The input file format is formatted with each level indexed by four spaces more than the level above
-### level zero is indexed with four spaces exactly
+The input file format is formatted with each level indexed by four spaces more than the level above,
+Level zero (the first line) is indexed with four spaces exactly
 
 
 ### Example
@@ -22,7 +22,7 @@ Demo for parsing Structured text data to an HTML &lt;ul>
 
 ```
 
-###The class is automatically called, when you run the index file. With the input above the output should be
+The class is automatically called, when you run the index.php file. With the input above the output should be
 
 ```html
 
