@@ -20,10 +20,10 @@
  *  Call file as
  *  `new TextToUL("data_fale_path")`;
  *
- *  Outputisreturned to STDOUT
+ *  Output is returned to STDOUT
  */
 
-namespace L5Labs {
+namespace solutionstack {
 
     class TextToUL
     {
@@ -146,7 +146,7 @@ namespace L5Labs {
 
 namespace { //global
 
-    use L5Labs\TextToUL;
+    use solutionstack\TextToUL;
 
     new TextToUL("./input_data");
 
