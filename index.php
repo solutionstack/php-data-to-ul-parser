@@ -52,7 +52,7 @@ namespace solutionstack {
             echo($this->markup_text); //output and end
         }
 
-        protected function build_menu(string $line):void
+        protected function build_menu(string $line): void
         {
             if ( ! strlen($line)) {//empty line, ignore
                 return;
@@ -81,7 +81,7 @@ namespace solutionstack {
                     ++$space_count;
                 }
 
-                if ($space_count % 4) {
+                if ($space_count % $this->indent_mltiple) {
                     // $indent count must be multiples of four, i.e there was a remainder or its less than 4
                     return;
                 }
