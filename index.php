@@ -45,6 +45,7 @@ namespace solutionstack {
 
             while ( ! $this->data_file_handle->eof()) {
 
+                //send each line over to build the list
                 $this->build_menu($this->data_file_handle->fgets()) . "<br/>";
             }
 
@@ -53,13 +54,12 @@ namespace solutionstack {
 
         protected function build_menu(string $line)
         {
-            if ( ! strlen($line)) {
+            if ( ! strlen($line)) {//empty line, ignore
                 return;
-            } //empty line, ignore
+            }
 
 
-            //initial indent is 0, so we at start of file
-            if ($this->current_indent_level === 0) {
+            if ($this->current_indent_level === 0) {//CASE 1: initial indent is 0, so we at start of file
 
                 $this->markup_text .= self::MARKUP_BLOCK_START; //start first <ul>
 
@@ -72,60 +72,54 @@ namespace solutionstack {
             }
             else {
 
-                //count the number of spaces current line is indented by
                 $ascii_space = 32;
                 $space_count = 0;
                 $i = 0;
 
-
-                while (ord($line[$i++]) === $ascii_space) {
+                while (ord($line[$i++]) === $ascii_space) {//count the space count before the first non-space char
                     ++$space_count;
-                } //get the space count before the first char
+                }
 
                 if ($space_count % 4) {
+                    // $indent count must be multiples of four, i.e there was a remainder or its less than 4
                     return;
-                }// $indent count must be multiples of four, i.e there was a remainder or its less than 4
+                }
 
-                //current item is at the same indentation level as the prev
                 if ($this->current_indent_level === $space_count) {
+                    //CASE 2: current item is at the same indentation level as the prev
 
                     $this->markup_text
-                        .= self::MARKUP_BLOCK_CHILD_CLOSE
-                        //close the prev list item </li>
-                        . self::MARKUP_BLOCK_CHILD . trim($line)
-                        //add new <l>i item
+                        .= self::MARKUP_BLOCK_CHILD_CLOSE//close the prev list item </li>
+                        . self::MARKUP_BLOCK_CHILD . trim($line)//add new <l>i item
                         . self::MARKUP_BLOCK_CHILD_CLOSE;; //close this </li> item
 
                 }
 
-                //current item is one level deep from the previous
+
                 if ($space_count - $this->current_indent_level === 4) {
-                    //a sub menu
+                    //CASE 3: current item is one level deep from the previous
+                    //i.e a sub menu
 
                     $this->markup_text
-                        .= self::MARKUP_BLOCK_START
-                        //we are one level deep, so start a new <ul>
-                        . self::MARKUP_BLOCK_CHILD . trim($line)
-                        //append cuurent line as an <li>
+                        .= self::MARKUP_BLOCK_START //we are one level deep, so start a new <ul>
+                        . self::MARKUP_BLOCK_CHILD . trim($line) //append cuurent line as an <li>
                         . self::MARKUP_BLOCK_CHILD_CLOSE; //close the </li>
 
                     $this->current_indent_level = $space_count; //
 
                 }
 
-                //current item is at one indent level outside the previous
                 if ($this->current_indent_level - $space_count === 4) {
-                    //leaving a submenu
+                    //CASE 3: current item is at one indent level outside the previous
+                    //i.e leaving a submenu
 
                     $this->markup_text
                         .= self::MARKUP_BLOCK_CLOSE //close a </ul>
-                        . self::MARKUP_BLOCK_CHILD_CLOSE
-                        //close a parent </li> of that <ul>
+                        . self::MARKUP_BLOCK_CHILD_CLOSE //close a parent </li> of that <ul>
                         . self::MARKUP_BLOCK_CHILD //open an <li> for this level
                         . trim(
-                            $line
-                        ); //<li> content , we are not closing in case there's a child <ul> to be appended
-
+                            $line //<li> content , we are not closing the <li> in case there's a child <ul> to be appended
+                        );
                     $this->current_indent_level = $space_count; //cache
 
                 }
